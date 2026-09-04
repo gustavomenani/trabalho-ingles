@@ -2,9 +2,12 @@ import React, { Suspense, lazy } from 'react';
 import { ThemeProvider, QuestionnaireProvider } from './context';
 import { useQuestionnaire, useKeyboardNavigation } from './hooks';
 import { Header, ProgressBar, FooterNav } from './components/layout';
-import { QuestionContainer } from './components/questions';
+import { WelcomeScreen } from './components/questions/WelcomeScreen';
 
-// Code-split heavy modals and completion screen for optimal load performance
+// Code-split heavy components for instant initial paint & Lighthouse 100% performance
+const QuestionContainer = lazy(() =>
+  import('./components/questions/QuestionContainer').then((m) => ({ default: m.QuestionContainer }))
+);
 const CompletionScreen = lazy(() =>
   import('./components/results/CompletionScreen').then((m) => ({ default: m.CompletionScreen }))
 );
@@ -22,7 +25,7 @@ const QuestionnaireApp: React.FC = () => {
   // Activate keyboard hotkeys
   useKeyboardNavigation();
 
-  const { isCompleted, isReviewOpen, isHomeConfirmOpen, isShortcutsOpen, language } = useQuestionnaire();
+  const { currentIndex, isCompleted, isReviewOpen, isHomeConfirmOpen, isShortcutsOpen, language } = useQuestionnaire();
 
   React.useEffect(() => {
     document.documentElement.lang = language;
@@ -32,6 +35,7 @@ const QuestionnaireApp: React.FC = () => {
         : 'English Assignment (Term III) — Etec de Araçatuba • Prof. Fausto Shell';
   }, [language]);
 
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-150 relative overflow-x-hidden">
       <div className="relative z-10 flex flex-col min-h-screen">
@@ -39,9 +43,13 @@ const QuestionnaireApp: React.FC = () => {
         <ProgressBar />
 
         <main className="flex-1 flex flex-col justify-center items-center w-full">
-          <Suspense fallback={<div className="min-h-[300px]" />}>
-            {isCompleted ? <CompletionScreen /> : <QuestionContainer />}
-          </Suspense>
+          {currentIndex === 0 && !isCompleted ? (
+            <WelcomeScreen />
+          ) : (
+            <Suspense fallback={<div className="min-h-[300px]" />}>
+              {isCompleted ? <CompletionScreen /> : <QuestionContainer />}
+            </Suspense>
+          )}
         </main>
 
         <FooterNav />

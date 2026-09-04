@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
                 {t('term')}
               </span>
             </div>
-            <span className="text-[11px] text-slate-500 dark:text-zinc-400 hidden md:block whitespace-nowrap">
+            <span className="text-[11px] text-slate-600 dark:text-zinc-300 hidden md:block whitespace-nowrap">
               Etec de Araçatuba • Prof. Fausto Shell
             </span>
           </div>
@@ -118,7 +118,7 @@ export const Header: React.FC = () => {
             onClick={toggleLanguage}
             className="px-2 sm:px-2.5 py-1 sm:py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shrink-0 select-none"
             title={language === 'en' ? t('translateToPt') : t('translateToEn')}
-            aria-label={language === 'en' ? t('translateToPt') : t('translateToEn')}
+            aria-label={language === 'en' ? 'PT - Traduzir para Português' : 'EN - Switch to English'}
           >
             <Languages className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
             <span className="font-mono text-[11px]">{language === 'en' ? '🇧🇷 PT' : '🇺🇸 EN'}</span>

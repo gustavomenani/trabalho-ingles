@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trabalho-ingles-alpha.vercel.app/sitemap.xml

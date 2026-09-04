@@ -44,15 +44,15 @@ export const FooterNav: React.FC = () => {
                 <span className="hidden sm:inline">{t('previousBtn')}</span>
               </Button>
             ) : (
-              <div className="text-xs text-slate-500 dark:text-zinc-400 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-slate-700 dark:text-zinc-300" />
+              <div className="text-xs text-slate-600 dark:text-zinc-300 flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                 <span>{t('standardEval')}</span>
               </div>
             )}
           </div>
 
           {/* Center Keyboard hint */}
-          <div className="hidden md:flex items-center gap-2 text-xs text-slate-400 dark:text-zinc-500 select-none">
+          <div className="hidden md:flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-300 select-none">
             <span>{t('pressKey')}</span>
             <KeyboardBadge keys="Enter ↵" />
             <span>{t('pressEnterToAdvance')}</span>
