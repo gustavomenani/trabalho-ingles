@@ -1,80 +1,46 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight, CornerDownLeft, BookOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { KeyboardBadge } from '../ui/KeyboardBadge';
 import { useQuestionnaire } from '../../hooks/useQuestionnaire';
 
 export const FooterNav: React.FC = () => {
-  const {
-    currentIndex,
-    totalSteps,
-    goToNext,
-    goToPrev,
-    isCompleted,
-    validationError,
-    t,
-  } = useQuestionnaire();
+  const { currentIndex, totalSteps, goToNext, goToPrev, isCompleted, validationError, t } =
+    useQuestionnaire();
 
-  if (isCompleted) return null;
+  if (isCompleted || currentIndex === 0) return null;
 
-  const isWelcome = currentIndex === 0;
   const isLastQuestion = currentIndex === totalSteps - 1;
 
   return (
-    <footer className="sticky bottom-0 z-30 w-full backdrop-blur-md bg-white/95 dark:bg-zinc-950/95 border-t border-slate-200/80 dark:border-zinc-800/80 transition-colors">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col gap-2">
-        {/* Validation notification banner */}
-        {validationError && (
-          <div className="text-center text-xs font-medium text-rose-600 dark:text-rose-400">
-            {t('validationRequired')}
-          </div>
-        )}
+    <footer className="app-chrome shrink-0 z-30 w-full bg-paper/95 dark:bg-paper-dark/95 border-t border-rule dark:border-rule-dark">
+      <div className="app-column py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col gap-2">
+        <div role="alert" aria-live="polite" className="text-center text-sm font-medium text-stamp empty:hidden">
+          {validationError}
+        </div>
 
-        <div className="flex items-center justify-between gap-4">
-          {/* Back Button */}
-          <div className="shrink-0">
-            {!isWelcome ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={goToPrev}
-                iconLeft={<ArrowLeft className="w-4 h-4" />}
-                className="text-slate-600 dark:text-zinc-300"
-              >
-                <span className="hidden sm:inline">{t('previousBtn')}</span>
-              </Button>
-            ) : (
-              <div className="text-xs text-slate-600 dark:text-zinc-300 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                <span>{t('standardEval')}</span>
-              </div>
-            )}
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
+          <div className="col-start-1 justify-self-start">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={goToPrev}
+              iconLeft={<ArrowLeft className="w-4 h-4" />}
+              aria-label={t('previousBtn')}
+            >
+              <span className="hidden sm:inline">{t('previousBtn')}</span>
+            </Button>
           </div>
 
-          {/* Center Keyboard hint */}
-          <div className="hidden md:flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-300 select-none">
+          <div className="col-start-2 hidden md:flex items-center gap-2 text-sm text-muted dark:text-muted-dark select-none">
             <span>{t('pressKey')}</span>
-            <KeyboardBadge keys="Enter ↵" />
+            <KeyboardBadge keys="Enter" />
             <span>{t('pressEnterToAdvance')}</span>
           </div>
 
-          {/* Next / Submit Button */}
-          <div className="flex items-center gap-2 shrink-0">
-            <Button
-              variant="primary"
-              size="md"
-              onClick={() => goToNext()}
-              iconRight={<ArrowRight className="w-4 h-4" />}
-              className="font-medium"
-            >
-              <span>
-                {isWelcome
-                  ? t('startBtn')
-                  : isLastQuestion
-                  ? t('submitBtn')
-                  : t('nextBtn')}
-              </span>
-              <CornerDownLeft className="w-3.5 h-3.5 opacity-60 ml-0.5 hidden sm:inline" />
+          <div className="col-start-3 justify-self-end">
+            <Button variant="primary" size="md" onClick={() => goToNext()} iconRight={<ArrowRight className="w-4 h-4" />}>
+              {isLastQuestion ? t('submitBtn') : t('nextBtn')}
             </Button>
           </div>
         </div>

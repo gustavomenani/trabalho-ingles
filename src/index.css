@@ -3,14 +3,42 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: "Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --font-mono: "Public Sans", ui-sans-serif, sans-serif;
+
+  --color-paper: #f3f3f3;
+  --color-paper-dark: #1c1816;
+  --color-sheet: #fafaf8;
+  --color-sheet-dark: #26211e;
+  --color-ink: #333333;
+  --color-ink-dark: #f4efe8;
+  --color-muted: #5c5c5c;
+  --color-muted-dark: #c4b8ac;
+  --color-rule: #d4d4d4;
+  --color-rule-dark: #3d3530;
+  --color-stamp: #b20000;
+  --color-stamp-ink: #931914;
+  --color-mark: #005c6e;
+  --color-mark-dark: #7eb8c4;
 }
 
 @layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   * {
@@ -18,15 +46,24 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-150;
+    @apply bg-paper text-ink dark:bg-paper-dark dark:text-ink-dark min-h-screen;
     margin: 0;
     padding: 0;
   }
 
-  /* Custom subtle scrollbar */
+  ::selection {
+    background: var(--color-stamp);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-stamp);
+    outline-offset: 2px;
+  }
+
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -34,29 +71,187 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+    @apply bg-rule dark:bg-rule-dark;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-400 dark:bg-slate-600;
+    background: var(--color-muted);
   }
 }
 
-/* Print optimizations */
+@layer components {
+  .app-column {
+    width: 100%;
+    max-width: 42rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .app-column {
+      padding-inline: 1.5rem;
+    }
+  }
+}
+
+@layer utilities {
+  .font-exam {
+    font-family: var(--font-serif);
+  }
+
+  .print-only {
+    display: none;
+  }
+}
+
 @media print {
-  header,
-  footer,
-  button,
+  @page {
+    size: A4;
+    margin: 14mm 12mm 16mm 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #333 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  #root,
+  #root > div,
+  main {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+    transform: none !important;
+    background: #fff !important;
+    color: #333 !important;
+    flex: none !important;
+  }
+
+  .app-chrome,
   .no-print {
     display: none !important;
   }
 
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
   .print-only {
     display: block !important;
+  }
+
+  .app-column {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-report {
+    font-size: 11pt;
+    line-height: 1.45;
+    color: #333 !important;
+    overflow: visible !important;
+  }
+
+  .print-report > :not(:last-child) {
+    margin-bottom: 12pt !important;
+  }
+
+  .print-identity {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-letterhead {
+    border-bottom: 2pt solid #b20000;
+    padding-bottom: 8pt;
+    margin-bottom: 10pt;
+  }
+
+  .print-letterhead h1 {
+    font-family: var(--font-serif);
+    font-size: 16pt;
+    font-weight: 600;
+    margin: 0 0 3pt;
+    color: #333;
+  }
+
+  .print-letterhead p,
+  .print-meta p {
+    margin: 0 !important;
+    font-size: 10pt;
+    color: #333;
+  }
+
+  .print-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4pt 16pt;
+    margin-top: 8pt;
+    font-size: 10pt;
+  }
+
+  .print-meta span {
+    display: block;
+    font-size: 8.5pt;
+    color: #5c5c5c;
+    margin: 0;
+  }
+
+  .print-cover,
+  .print-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .print-cover {
+    margin: 0 0 14pt;
+    padding: 10pt 12pt !important;
+  }
+
+  .print-grade-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12pt !important;
+  }
+
+  .print-item {
+    margin: 0 0 10pt;
+    padding: 8pt 10pt !important;
+  }
+
+  .print-stamp {
+    transform: none !important;
+    rotate: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .print-key {
+    padding-top: 0 !important;
+  }
+
+  .print-key h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
   }
 }

@@ -4,13 +4,13 @@ import type { Theme } from './ThemeContextDef';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('fq_theme');
+    const saved = localStorage.getItem('etec_en_theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    return 'light';
   });
 
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
-    const saved = localStorage.getItem('fq_sound');
+    const saved = localStorage.getItem('etec_en_sound');
     return saved !== null ? saved === 'true' : true;
   });
 
@@ -21,11 +21,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('fq_theme', theme);
+    localStorage.setItem('etec_en_theme', theme);
   }, [theme]);
 
   useEffect(() => {
-    localStorage.setItem('fq_sound', String(soundEnabled));
+    localStorage.setItem('etec_en_sound', String(soundEnabled));
   }, [soundEnabled]);
 
   const toggleTheme = () => {

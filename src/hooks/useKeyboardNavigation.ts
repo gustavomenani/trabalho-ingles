@@ -94,10 +94,6 @@ export function useKeyboardNavigation() {
           e.preventDefault();
           playSelect();
           setAnswer(currentQuestion.id, matchedOption.id);
-          // Smooth auto-advance after brief visual feedback
-          setTimeout(() => {
-            goToNext({ questionId: currentQuestion.id, value: matchedOption.id });
-          }, 120);
           return;
         }
       }
@@ -115,9 +111,6 @@ export function useKeyboardNavigation() {
           e.preventDefault();
           playClick();
           setAnswer(currentQuestion.id, val);
-          setTimeout(() => {
-            goToNext({ questionId: currentQuestion.id, value: val });
-          }, 120);
           return;
         }
       }

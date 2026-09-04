@@ -11,13 +11,17 @@ import { useSoundEffects } from '../hooks/useSoundEffects';
 import { useTheme } from '../hooks/useTheme';
 import { QuestionnaireContext } from './QuestionnaireContextDef';
 
-const STORAGE_KEY = 'fq_answers_state_v4';
-const STEP_KEY = 'fq_step_index_v4';
-const NAME_KEY = 'fq_student_name_v4';
-const TIME_KEY = 'fq_elapsed_time_v4';
-const SECTION_KEY = 'fq_section_id_v4';
-const START_TIME_KEY = 'fq_start_time_v4';
-const LANG_KEY = 'fq_language_v4';
+const STORAGE_KEY = 'etec_en_answers_v1';
+const STEP_KEY = 'etec_en_step_v1';
+const NAME_KEY = 'etec_en_student_name_v1';
+const TIME_KEY = 'etec_en_elapsed_v1';
+const SECTION_KEY = 'etec_en_section_v1';
+const START_TIME_KEY = 'etec_en_start_v1';
+const LANG_KEY = 'etec_en_language_v1';
+
+function hasFullName(name: string): boolean {
+  return name.trim().split(/\s+/).filter(Boolean).length >= 2;
+}
 
 export const QuestionnaireProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { soundEnabled } = useTheme();
@@ -102,9 +106,9 @@ export const QuestionnaireProvider: React.FC<{ children: React.ReactNode }> = ({
   const [language, setLanguageState] = useState<Language>(() => {
     try {
       const saved = localStorage.getItem(LANG_KEY);
-      return saved === 'pt' || saved === 'en' ? saved : 'en';
+      return saved === 'pt' || saved === 'en' ? saved : 'pt';
     } catch {
-      return 'en';
+      return 'pt';
     }
   });
 
@@ -240,7 +244,15 @@ export const QuestionnaireProvider: React.FC<{ children: React.ReactNode }> = ({
   const validateCurrent = useCallback(
     (instantOverride?: { questionId: string; value: AnswerValue }): boolean => {
       if (!currentQuestion) return true;
-      if (currentQuestion.type === 'welcome') return true;
+      if (currentQuestion.type === 'welcome') {
+        if (!hasFullName(studentName)) {
+          setValidationError(t('nameRequired'));
+          playAlert();
+          return false;
+        }
+        setValidationError(null);
+        return true;
+      }
 
       if (currentQuestion.required) {
         let ans = answersRef.current[currentQuestion.id];
@@ -248,7 +260,7 @@ export const QuestionnaireProvider: React.FC<{ children: React.ReactNode }> = ({
           ans = instantOverride.value;
         }
         if (ans === undefined || ans === '' || (Array.isArray(ans) && ans.length === 0)) {
-          setValidationError('Please select an option before continuing.');
+          setValidationError(t('validationRequired'));
           playAlert();
           return false;
         }
@@ -256,7 +268,7 @@ export const QuestionnaireProvider: React.FC<{ children: React.ReactNode }> = ({
       setValidationError(null);
       return true;
     },
-    [currentQuestion, playAlert, setValidationError]
+    [currentQuestion, playAlert, setValidationError, studentName, t]
   );
 
   const goToNext = useCallback(

@@ -926,7 +926,7 @@ export function calculateAssignmentGrade(
   if (percentage === 100) {
     letterGrade = 'A+';
     cefrLevel = isPt ? 'B2 (Intermediário Superior)' : 'B2 (Upper-Intermediate)';
-    title = isPt ? 'Desempenho Extraordinário! 🌟' : 'Outstanding Performance! 🌟';
+    title = isPt ? 'Desempenho extraordinário' : 'Outstanding performance';
     summary = isPt
       ? 'Pontuação perfeita! Você acertou todas as questões, demonstrando excelente domínio da gramática, precisão de vocabulário e interpretação textual impecável.'
       : 'Perfect score! You answered every question correctly, demonstrating great attention to grammar, vocabulary precision, and clear reading comprehension.';
@@ -963,10 +963,6 @@ export function calculateAssignmentGrade(
     );
   }
 
-  const grammarScore = Math.round(percentage);
-  const vocabScore = Math.max(50, Math.round(percentage));
-  const readingScore = Math.max(60, Math.round(percentage));
-
   return {
     studentName,
     elapsedSeconds,
@@ -978,19 +974,7 @@ export function calculateAssignmentGrade(
     cefrLevel,
     title,
     summary,
-    competencies: isPt
-      ? [
-          { label: 'Gramática & Tempos Verbais', score: grammarScore },
-          { label: 'Vocabulário & Expressões Práticas', score: vocabScore },
-          { label: 'Interpretação de Texto', score: readingScore },
-          { label: 'Fluência Geral em Inglês', score: Math.max(70, percentage) },
-        ]
-      : [
-          { label: 'Grammar & Verb Tenses', score: grammarScore },
-          { label: 'Vocabulary & Everyday Phrases', score: vocabScore },
-          { label: 'Reading Comprehension', score: readingScore },
-          { label: 'Overall English Fluency', score: Math.max(70, percentage) },
-        ],
+    competencies: [],
     recommendations,
   };
 }

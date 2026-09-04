@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  Volume2,
-  VolumeX,
-  Moon,
-  Sun,
-  BookOpen,
-  CheckSquare,
-  Home,
-  Clock,
-  HelpCircle,
-  Languages,
-} from 'lucide-react';
+import { Volume2, VolumeX, Moon, Sun, Clock, HelpCircle } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { useQuestionnaire } from '../../hooks/useQuestionnaire';
 
@@ -26,11 +15,9 @@ const HeaderTimer: React.FC<HeaderTimerProps> = React.memo(({ startTime }) => {
 
   React.useEffect(() => {
     if (!startTime) return;
-
     const interval = setInterval(() => {
       setSeconds(Math.max(0, Math.floor((Date.now() - startTime) / 1000)));
     }, 1000);
-
     return () => clearInterval(interval);
   }, [startTime]);
 
@@ -39,13 +26,16 @@ const HeaderTimer: React.FC<HeaderTimerProps> = React.memo(({ startTime }) => {
   const formattedTime = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
   return (
-    <span className="flex items-center gap-1 font-mono whitespace-nowrap">
-      <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+    <span className="flex items-center gap-1.5 tabular-nums whitespace-nowrap text-sm text-muted dark:text-muted-dark">
+      <Clock className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
       <span>{formattedTime}</span>
     </span>
   );
 });
 HeaderTimer.displayName = 'HeaderTimer';
+
+const iconBtn =
+  'inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-9 sm:min-w-9 rounded-md text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark hover:bg-sheet dark:hover:bg-sheet-dark cursor-pointer';
 
 export const Header: React.FC = () => {
   const { theme, toggleTheme, soundEnabled, toggleSound } = useTheme();
@@ -64,131 +54,95 @@ export const Header: React.FC = () => {
   } = useQuestionnaire();
 
   const isWelcome = currentIndex === 0;
+  const questionTotal = Math.max(0, totalSteps - 1);
 
   return (
-    <header className="sticky top-0 z-30 w-full backdrop-blur-md bg-white/95 dark:bg-zinc-950/95 border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Academic Brand & Home Click */}
-        <div
-          onClick={() => goHome(true)}
-          className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none min-w-0"
-          title={t('homeBtn')}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              goHome(true);
-            }
-          }}
-        >
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
-            <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </div>
-          <div className="flex flex-col justify-center min-w-0">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-semibold text-xs sm:text-base tracking-tight text-slate-900 dark:text-zinc-100 truncate">
-                {t('assignmentTitle')}
-              </span>
-              <span className="hidden sm:inline-block text-[9px] sm:text-[10px] uppercase font-mono px-1 sm:px-1.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 font-semibold border border-slate-200 dark:border-zinc-700 shrink-0">
-                {t('term')}
-              </span>
-            </div>
-            <span className="text-[11px] text-slate-600 dark:text-zinc-300 hidden md:block whitespace-nowrap">
-              Etec de Araçatuba • Prof. Fausto Shell
+    <header className="app-chrome shrink-0 z-30 w-full bg-paper/95 dark:bg-paper-dark/95 border-b border-rule dark:border-rule-dark">
+      <div className="app-column h-14 sm:h-16 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
+        {isWelcome ? (
+          <div className="col-start-1 flex flex-col min-w-0 justify-self-start">
+            <span className="font-semibold text-sm sm:text-base text-ink dark:text-ink-dark truncate">
+              {t('assignmentTitle')}
+            </span>
+            <span className="hidden sm:block text-xs text-muted dark:text-muted-dark truncate">
+              {t('schoolAndTeacher')} · {t('term')}
             </span>
           </div>
-        </div>
-
-        {/* Center Progress & Timer in a Single Balanced, Non-wrapping Pill */}
-        {!isWelcome && !isCompleted && (
-          <div className="hidden md:flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-xs text-slate-600 dark:text-zinc-400 whitespace-nowrap shrink-0 select-none">
-            <span className="whitespace-nowrap font-medium text-slate-700 dark:text-zinc-300">
-              {t('itemCount')} <strong className="text-slate-900 dark:text-white font-bold">{currentIndex}</strong> {t('of')} {totalSteps - 1}
+        ) : (
+          <button
+            type="button"
+            onClick={() => goHome(true)}
+            className="col-start-1 flex flex-col items-start min-w-0 text-left rounded-md hover:bg-sheet dark:hover:bg-sheet-dark py-0.5 justify-self-start"
+            title={t('homeBtn')}
+          >
+            <span className="font-semibold text-sm sm:text-base text-ink dark:text-ink-dark truncate max-w-full">
+              {t('assignmentTitle')}
             </span>
-            <span className="text-slate-300 dark:text-zinc-700">•</span>
-            <HeaderTimer startTime={startTime} />
-          </div>
+            <span className="hidden sm:block text-xs text-muted dark:text-muted-dark truncate max-w-full">
+              {t('schoolAndTeacher')}
+            </span>
+          </button>
         )}
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-          {/* Language Translation Toggle */}
+        <div className="col-start-2 hidden md:flex items-center justify-center">
+          {!isWelcome && !isCompleted ? <HeaderTimer startTime={startTime} /> : null}
+        </div>
+
+        <div className="col-start-3 flex items-center justify-end gap-0.5 shrink-0 justify-self-end">
           <button
+            type="button"
             onClick={toggleLanguage}
-            className="px-2 sm:px-2.5 py-1 sm:py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shrink-0 select-none"
+            className="px-2 min-h-11 sm:min-h-9 text-sm font-medium rounded-md text-ink dark:text-ink-dark hover:bg-sheet dark:hover:bg-sheet-dark cursor-pointer"
             title={language === 'en' ? t('translateToPt') : t('translateToEn')}
-            aria-label={language === 'en' ? 'PT - Traduzir para Português' : 'EN - Switch to English'}
+            aria-label={language === 'en' ? t('translateToPt') : t('translateToEn')}
           >
-            <Languages className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
-            <span className="font-mono text-[11px]">{language === 'en' ? '🇧🇷 PT' : '🇺🇸 EN'}</span>
+            <span className="sm:hidden" aria-hidden="true">{language === 'en' ? 'PT' : 'EN'}</span>
+            <span className="hidden sm:inline">{language === 'en' ? 'Português' : 'English'}</span>
           </button>
 
-          {/* Explicit Home Button - visible on sm+ since clicking brand logo/title handles home on mobile */}
-          {!isWelcome && (
-            <button
-              onClick={() => goHome(true)}
-              className="hidden sm:flex px-2 sm:px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
-              title={t('homeBtn')}
-              aria-label={t('homeBtn')}
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">{t('homeBtn')}</span>
-            </button>
-          )}
-
-          {/* Review Questions Drawer Button */}
           {!isWelcome && !isCompleted && (
             <button
+              type="button"
               onClick={() => setIsReviewOpen(true)}
-              className="px-2 sm:px-2.5 py-1 sm:py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+              className={`inline-flex ${iconBtn} gap-1.5 px-2`}
               title={t('reviewBtn')}
               aria-label={t('reviewBtn')}
             >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">{t('reviewBtn')}</span>
-              <span className="px-1.5 py-0.2 text-[10px] font-mono rounded bg-slate-200 dark:bg-zinc-700 text-slate-700 dark:text-zinc-300">
-                {answeredCount}/{totalSteps - 1}
+              <span className="hidden lg:inline text-sm">{t('reviewBtn')}</span>
+              <span className="text-sm tabular-nums">
+                {answeredCount}/{questionTotal}
               </span>
             </button>
           )}
 
-          {/* Shortcuts Help Button - hidden on touch/mobile screens since touch devices do not have physical keyboard shortcuts */}
           <button
+            type="button"
             onClick={() => setIsShortcutsOpen(true)}
-            className="hidden md:inline-flex p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
+            className={`${iconBtn} max-md:hidden`}
             title={t('shortcutsTitle')}
             aria-label={t('shortcutsTitle')}
           >
             <HelpCircle className="w-4 h-4" />
           </button>
 
-          {/* Sound Toggle */}
           <button
+            type="button"
             onClick={toggleSound}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0 flex items-center justify-center"
+            className={iconBtn}
             title={soundEnabled ? t('muteSound') : t('unmuteSound')}
             aria-label={soundEnabled ? t('muteSound') : t('unmuteSound')}
           >
-            {soundEnabled ? (
-              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700 dark:text-zinc-200" />
-            ) : (
-              <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
-            )}
+            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
 
-          {/* Dark / Light Mode Toggle */}
           <button
+            type="button"
             onClick={toggleTheme}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0 flex items-center justify-center"
+            className={iconBtn}
             title={theme === 'dark' ? t('switchToLight') : t('switchToDark')}
             aria-label={theme === 'dark' ? t('switchToLight') : t('switchToDark')}
           >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
-            )}
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
         </div>
       </div>

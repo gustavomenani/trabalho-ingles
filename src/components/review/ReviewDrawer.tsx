@@ -1,70 +1,60 @@
-import React from 'react';
-import { X, CheckCircle2, Circle, ArrowRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { X, CheckCircle2, Circle } from 'lucide-react';
 import { useQuestionnaire } from '../../hooks/useQuestionnaire';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 export const ReviewDrawer: React.FC = () => {
-  const {
-    questions,
-    currentIndex,
-    answers,
-    goToIndex,
-    isReviewOpen,
-    setIsReviewOpen,
-    language,
-    t,
-  } = useQuestionnaire();
+  const { questions, currentIndex, answers, goToIndex, isReviewOpen, setIsReviewOpen, language, t } =
+    useQuestionnaire();
+  const panelRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(isReviewOpen, panelRef);
 
   if (!isReviewOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+    <div className="fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="review-drawer-title">
+      <button
+        type="button"
+        className="absolute inset-0 bg-ink/45 dark:bg-black/60 cursor-default"
+        aria-label={t('closeReview')}
         onClick={() => setIsReviewOpen(false)}
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
-        <div className="w-full sm:w-96 max-w-md bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col">
-          {/* Header */}
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div
+          ref={panelRef}
+          className="w-full sm:w-96 max-w-md bg-sheet dark:bg-sheet-dark shadow-[0_8px_24px_rgba(51,51,51,0.2)] border-l border-rule dark:border-rule-dark flex flex-col"
+        >
+          <div className="px-4 sm:px-6 py-4 border-b border-rule dark:border-rule-dark flex items-center justify-between">
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+              <h2 id="review-drawer-title" className="font-exam text-lg font-semibold text-ink dark:text-ink-dark">
                 {t('reviewDrawerTitle')}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                {t('jumpDirectly')}
-              </p>
+              </h2>
+              <p className="text-sm text-muted dark:text-muted-dark mt-0.5">{t('jumpDirectly')}</p>
             </div>
             <button
+              type="button"
               onClick={() => setIsReviewOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 rounded-md text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark"
               aria-label={t('closeReview')}
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Question List */}
-          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 divide-y divide-slate-100 dark:divide-slate-800/60">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3">
             {questions
               .filter((q) => q.type !== 'welcome')
               .map((q, idx) => {
-                const questionStepIndex = idx + 1; // 1-indexed (since welcome is 0)
+                const questionStepIndex = idx + 1;
                 const answer = answers[q.id];
                 const hasAnswer =
-                  answer !== undefined &&
-                  answer !== '' &&
-                  (!Array.isArray(answer) || answer.length > 0);
-
+                  answer !== undefined && answer !== '' && (!Array.isArray(answer) || answer.length > 0);
                 const isCurrent = currentIndex === questionStepIndex;
-
                 let answerDisplay = t('notAnsweredYet');
                 if (hasAnswer) {
                   if (Array.isArray(answer)) {
                     answerDisplay = `${answer.length} ${t('itemsSelected')}`;
-                  } else if (q.type === 'slider') {
-                    answerDisplay = `${answer} ${q.unit || ''}`;
                   } else if (q.type === 'rating-scale') {
                     answerDisplay = t('scoreReview', { score: String(answer) });
                   } else if (q.type === 'single-choice') {
@@ -83,52 +73,47 @@ export const ReviewDrawer: React.FC = () => {
                 const displayCategory = language === 'pt' && q.categoryPt ? q.categoryPt : q.category;
 
                 return (
-                  <div
+                  <button
                     key={q.id}
+                    type="button"
                     onClick={() => goToIndex(questionStepIndex)}
-                    className={`py-3.5 px-3 rounded-xl transition-colors cursor-pointer group flex items-start gap-3 my-1 ${
-                      isCurrent
-                        ? 'bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700'
-                        : 'hover:bg-slate-50 dark:hover:bg-zinc-800/60'
+                    className={`w-full text-left py-3.5 px-3 my-1 rounded-md cursor-pointer flex items-start gap-3 ${
+                      isCurrent ? 'bg-paper dark:bg-paper-dark border border-rule dark:border-rule-dark' : 'hover:bg-paper dark:hover:bg-paper-dark'
                     }`}
                   >
-                    <div className="shrink-0 mt-0.5">
+                    <span className="shrink-0 mt-0.5">
                       {hasAnswer ? (
-                        <CheckCircle2 className="w-4 h-4 text-slate-900 dark:text-zinc-100" />
+                        <CheckCircle2 className="w-4 h-4 text-stamp" />
                       ) : (
-                        <Circle className="w-4 h-4 text-slate-300 dark:text-zinc-600" />
+                        <Circle className="w-4 h-4 text-rule dark:text-rule-dark" />
                       )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-slate-500 dark:text-zinc-400">
-                        {t('itemLabel')} {questionStepIndex} • {displayCategory}
-                      </div>
-                      <div className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-sm text-muted dark:text-muted-dark">
+                        {t('itemLabel')} {questionStepIndex}
+                        {displayCategory ? ` · ${displayCategory}` : ''}
+                      </span>
+                      <span className="block text-sm font-medium text-ink dark:text-ink-dark truncate">
                         {displayTitle}
-                      </div>
-                      <div
-                        className={`text-xs mt-0.5 truncate ${
-                          hasAnswer
-                            ? 'text-slate-700 dark:text-zinc-300 font-medium'
-                            : 'text-slate-400 italic'
+                      </span>
+                      <span
+                        className={`block text-sm mt-0.5 truncate ${
+                          hasAnswer ? 'text-ink dark:text-ink-dark' : 'text-muted dark:text-muted-dark'
                         }`}
                       >
                         {answerDisplay}
-                      </div>
-                    </div>
-
-                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white shrink-0 self-center transition-transform group-hover:translate-x-0.5" />
-                  </div>
+                      </span>
+                    </span>
+                  </button>
                 );
               })}
           </div>
 
-          {/* Footer */}
-          <div className="p-4 border-t border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950">
+          <div className="p-4 border-t border-rule dark:border-rule-dark">
             <button
+              type="button"
               onClick={() => setIsReviewOpen(false)}
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-md bg-stamp text-white text-sm font-medium hover:bg-stamp-ink cursor-pointer min-h-11"
             >
               {t('closeReview')}
             </button>

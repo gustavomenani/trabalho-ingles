@@ -26,23 +26,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.99] cursor-pointer';
+      'inline-flex items-center justify-center font-medium rounded-md transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stamp focus-visible:ring-offset-2 focus-visible:ring-offset-paper dark:focus-visible:ring-offset-paper-dark disabled:opacity-50 disabled:pointer-events-none select-none cursor-pointer min-h-11';
 
     const sizeStyles = {
-      sm: 'text-xs px-3 py-1.5 gap-1.5',
+      sm: 'text-sm px-3 py-2 gap-1.5',
       md: 'text-sm px-4 py-2.5 gap-2',
-      lg: 'text-base px-6 py-3 gap-2.5 shadow-xs',
+      lg: 'text-base px-6 py-3 gap-2.5',
     };
 
     const variantStyles = {
       primary:
-        'bg-slate-900 text-white hover:bg-slate-800 active:bg-black focus-visible:ring-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 dark:active:bg-slate-200 dark:focus-visible:ring-white shadow-xs',
+        'bg-stamp text-white hover:bg-stamp-ink active:bg-stamp-ink shadow-[0_1px_2px_rgba(51,51,51,0.18)]',
       secondary:
-        'bg-white text-slate-800 hover:bg-slate-50 active:bg-slate-100 border border-slate-300/80 focus-visible:ring-slate-400 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 dark:border-zinc-700/80',
+        'bg-sheet text-ink hover:bg-paper active:bg-paper border border-rule dark:bg-sheet-dark dark:text-ink-dark dark:hover:bg-paper-dark dark:border-rule-dark',
       ghost:
-        'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 active:bg-slate-200/60 focus-visible:ring-slate-400 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/80',
+        'text-muted hover:text-ink hover:bg-paper dark:text-muted-dark dark:hover:text-ink-dark dark:hover:bg-sheet-dark',
       danger:
-        'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 focus-visible:ring-rose-500',
+        'bg-stamp text-white hover:bg-stamp-ink',
     };
 
     return (
@@ -55,7 +55,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {iconLeft && <span className="shrink-0">{iconLeft}</span>}
         <span>{children}</span>
         {shortcutBadge && (
-          <kbd className="ml-1.5 px-1.5 py-0.5 text-[10px] font-mono font-semibold rounded bg-black/10 dark:bg-white/10 text-current border border-black/10 dark:border-white/10">
+          <kbd className="ml-1.5 px-1.5 py-0.5 text-xs font-medium rounded-sm bg-black/10 dark:bg-white/10 text-current border border-black/10 dark:border-white/10">
             {shortcutBadge}
           </kbd>
         )}
