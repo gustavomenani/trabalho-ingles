@@ -67,11 +67,11 @@ export const Header: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-30 w-full backdrop-blur-md bg-white/95 dark:bg-zinc-950/95 border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Academic Brand & Home Click */}
         <div
           onClick={() => goHome(true)}
-          className="flex items-center gap-3 cursor-pointer select-none shrink-0"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none min-w-0"
           title={t('homeBtn')}
           role="button"
           tabIndex={0}
@@ -82,19 +82,19 @@ export const Header: React.FC = () => {
             }
           }}
         >
-          <div className="w-8 h-8 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
-            <BookOpen className="w-4 h-4" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
+            <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="font-semibold text-sm sm:text-base tracking-tight text-slate-900 dark:text-zinc-100 whitespace-nowrap">
+          <div className="flex flex-col justify-center min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="font-semibold text-xs sm:text-base tracking-tight text-slate-900 dark:text-zinc-100 truncate">
                 {t('assignmentTitle')}
               </span>
-              <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 font-semibold border border-slate-200 dark:border-zinc-700 whitespace-nowrap">
+              <span className="hidden sm:inline-block text-[9px] sm:text-[10px] uppercase font-mono px-1 sm:px-1.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 font-semibold border border-slate-200 dark:border-zinc-700 shrink-0">
                 {t('term')}
               </span>
             </div>
-            <span className="text-[11px] text-slate-500 dark:text-zinc-400 hidden sm:block whitespace-nowrap">
+            <span className="text-[11px] text-slate-500 dark:text-zinc-400 hidden md:block whitespace-nowrap">
               Etec de Araçatuba • Prof. Fausto Shell
             </span>
           </div>
@@ -112,11 +112,11 @@ export const Header: React.FC = () => {
         )}
 
         {/* Action Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           {/* Language Translation Toggle */}
           <button
             onClick={toggleLanguage}
-            className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 select-none"
+            className="px-2 sm:px-2.5 py-1 sm:py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shrink-0 select-none"
             title={language === 'en' ? t('translateToPt') : t('translateToEn')}
             aria-label={language === 'en' ? t('translateToPt') : t('translateToEn')}
           >
@@ -124,11 +124,11 @@ export const Header: React.FC = () => {
             <span className="font-mono text-[11px]">{language === 'en' ? '🇧🇷 PT' : '🇺🇸 EN'}</span>
           </button>
 
-          {/* Explicit Home Button */}
+          {/* Explicit Home Button - visible on sm+ since clicking brand logo/title handles home on mobile */}
           {!isWelcome && (
             <button
               onClick={() => goHome(true)}
-              className="px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+              className="hidden sm:flex px-2 sm:px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
               title={t('homeBtn')}
               aria-label={t('homeBtn')}
             >
@@ -141,7 +141,7 @@ export const Header: React.FC = () => {
           {!isWelcome && !isCompleted && (
             <button
               onClick={() => setIsReviewOpen(true)}
-              className="px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+              className="px-2 sm:px-2.5 py-1 sm:py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
               title={t('reviewBtn')}
               aria-label={t('reviewBtn')}
             >
@@ -153,10 +153,10 @@ export const Header: React.FC = () => {
             </button>
           )}
 
-          {/* Shortcuts Help Button */}
+          {/* Shortcuts Help Button - hidden on touch/mobile screens since touch devices do not have physical keyboard shortcuts */}
           <button
             onClick={() => setIsShortcutsOpen(true)}
-            className="p-2 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
+            className="hidden md:inline-flex p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
             title={t('shortcutsTitle')}
             aria-label={t('shortcutsTitle')}
           >
@@ -166,21 +166,21 @@ export const Header: React.FC = () => {
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className="p-2 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0 flex items-center justify-center"
             title={soundEnabled ? t('muteSound') : t('unmuteSound')}
             aria-label={soundEnabled ? t('muteSound') : t('unmuteSound')}
           >
             {soundEnabled ? (
-              <Volume2 className="w-4 h-4 text-slate-700 dark:text-zinc-200" />
+              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700 dark:text-zinc-200" />
             ) : (
-              <VolumeX className="w-4 h-4 text-slate-400" />
+              <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
             )}
           </button>
 
           {/* Dark / Light Mode Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer shrink-0 flex items-center justify-center"
             title={theme === 'dark' ? t('switchToLight') : t('switchToDark')}
             aria-label={theme === 'dark' ? t('switchToLight') : t('switchToDark')}
           >
