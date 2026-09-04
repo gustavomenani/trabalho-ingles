@@ -50,8 +50,10 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
     submitBtn: 'Submit & View Grade',
     startBtn: 'Start Assignment',
     standardEval: 'Standard English Evaluation',
+    pressKey: 'Press',
     pressEnterToAdvance: 'to advance',
     validationRequired: 'Please select an option before continuing.',
+    closeDialog: 'Close dialog',
 
     // Question body
     readingPassageTitle: 'Reading Passage',
@@ -97,6 +99,7 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Shortcuts Modal
     shortcutsModalTitle: 'Keyboard Shortcuts',
     shortcutsClose: 'Close',
+    shortcutsCloseGuide: 'Close Guide',
     shortcutNext: 'Advance / Confirm option',
     shortcutPrev: 'Return to previous question',
     shortcutOption: 'Select option A, B, C, D (or 1–5)',
@@ -198,8 +201,10 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
     submitBtn: 'Enviar e Ver Nota',
     startBtn: 'Iniciar Trabalho',
     standardEval: 'Avaliação Oficial de Inglês',
+    pressKey: 'Pressione',
     pressEnterToAdvance: 'para avançar',
     validationRequired: 'Por favor, selecione uma opção antes de continuar.',
+    closeDialog: 'Fechar janela',
 
     // Question body
     readingPassageTitle: 'Texto de Leitura',
@@ -245,6 +250,7 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Shortcuts Modal
     shortcutsModalTitle: 'Atalhos de Teclado',
     shortcutsClose: 'Fechar',
+    shortcutsCloseGuide: 'Fechar Guia',
     shortcutNext: 'Avançar / Confirmar opção',
     shortcutPrev: 'Voltar à questão anterior',
     shortcutOption: 'Selecionar opção A, B, C, D (ou 1–5)',

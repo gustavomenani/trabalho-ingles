@@ -27,7 +27,7 @@ export const TextFeedbackQuestion: React.FC<{ question: Question }> = ({ questio
           maxLength={maxLength}
           placeholder={placeholderText}
           className="w-full p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white focus:border-transparent text-sm sm:text-base resize-none transition-all leading-relaxed shadow-xs"
-          aria-label={question.title}
+          aria-label={language === 'pt' && question.titlePt ? question.titlePt : question.title}
         />
       </div>
 

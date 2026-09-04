@@ -22,6 +22,8 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
 
   const selectedValue = answers[question.id] as string | undefined;
   const selectedOption = question.options?.find((o) => o.id === selectedValue);
+  const selectedOptionLabel =
+    language === 'pt' && selectedOption?.labelPt ? selectedOption.labelPt : selectedOption?.label;
 
   const handleSelect = (optionId: string) => {
     stopSpeech();
@@ -130,7 +132,7 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
                 <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                   <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                   <span>
-                    {t('selectedLabel')} {selectedOption.label}
+                    {t('selectedLabel')} {selectedOptionLabel}
                   </span>
                 </span>
               )}
@@ -200,6 +202,8 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
         {question.options?.map((option, index) => {
           const isSelected = selectedValue === option.id;
           const letter = option.shortcut || String.fromCharCode(65 + index);
+          const optionLabel =
+            language === 'pt' && option.labelPt ? option.labelPt : option.label;
           const descriptionText =
             language === 'pt' && option.descriptionPt ? option.descriptionPt : option.description;
 
@@ -234,7 +238,7 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
               {/* Label & Description */}
               <div className="flex-1 min-w-0 pt-0.5">
                 <div className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white leading-snug">
-                  {option.label}
+                  {optionLabel}
                 </div>
                 {descriptionText && (
                   <div className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5 leading-relaxed">

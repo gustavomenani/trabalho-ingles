@@ -36,7 +36,7 @@ export const HomeConfirmModal: React.FC = () => {
             <button
               onClick={() => setIsHomeConfirmOpen(false)}
               className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-              aria-label="Close dialog"
+              aria-label={t('closeDialog')}
             >
               <X className="w-4 h-4" />
             </button>

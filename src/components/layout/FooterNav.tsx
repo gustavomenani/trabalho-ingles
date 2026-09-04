@@ -53,7 +53,7 @@ export const FooterNav: React.FC = () => {
 
           {/* Center Keyboard hint */}
           <div className="hidden md:flex items-center gap-2 text-xs text-slate-400 dark:text-zinc-500 select-none">
-            <span>Press</span>
+            <span>{t('pressKey')}</span>
             <KeyboardBadge keys="Enter ↵" />
             <span>{t('pressEnterToAdvance')}</span>
           </div>
