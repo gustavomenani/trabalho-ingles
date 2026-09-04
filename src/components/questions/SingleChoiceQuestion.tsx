@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, BookOpen, Volume2, Square, Globe, Sparkles } from 'lucide-react';
+import { Check, BookOpen, Volume2, Globe, Sparkles } from 'lucide-react';
 import type { Question } from '../../types/questionnaire';
 import { useQuestionnaire } from '../../hooks/useQuestionnaire';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
@@ -40,10 +40,10 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
     <div className="space-y-4 w-full max-w-2xl mx-auto">
       {/* Reading Passage Box (if provided) */}
       {question.readingPassage && (
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-left space-y-3 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white/95 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800 border-l-4 border-l-indigo-500 dark:border-l-indigo-400 text-left space-y-3 shadow-xs">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
-              <BookOpen className="w-3.5 h-3.5" />
+              <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
               <span>{t('readingPassageTitle')}</span>
             </div>
 
@@ -72,14 +72,18 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
                   onClick={() => toggleSpeech(question.readingPassage || '')}
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors border cursor-pointer select-none ${
                     isPlaying
-                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 animate-pulse'
+                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 shadow-xs'
                       : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700'
                   }`}
                   title={isPlaying ? t('stopAudio') : t('listenAudio')}
                 >
                   {isPlaying ? (
                     <>
-                      <Square className="w-3 h-3 fill-current" />
+                      <div className="flex items-center gap-0.5 h-3">
+                        <span className="w-0.5 h-full bg-current animate-pulse rounded-full" />
+                        <span className="w-0.5 h-2/3 bg-current animate-ping rounded-full" />
+                        <span className="w-0.5 h-4/5 bg-current animate-pulse rounded-full" />
+                      </div>
                       <span>{t('stopAudio')}</span>
                     </>
                   ) : (
@@ -95,7 +99,7 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
           </div>
 
           {/* Original English Passage */}
-          <p className="text-sm sm:text-base text-slate-800 dark:text-zinc-200 italic leading-relaxed font-serif">
+          <p className="text-sm sm:text-base text-slate-800 dark:text-zinc-200 italic leading-relaxed font-sans">
             &ldquo;{question.readingPassage}&rdquo;
           </p>
 
@@ -122,7 +126,7 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
 
       {/* Sentence Stimulus Card (for fill-in-the-blank questions) */}
       {isSentenceStimulus && (
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-xs text-left space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white/95 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800 border-l-4 border-l-indigo-500 dark:border-l-indigo-400 shadow-xs text-left space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
@@ -161,16 +165,20 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
                 <button
                   type="button"
                   onClick={() => toggleSpeech(question.subtitle || '')}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors border cursor-pointer select-none ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors border cursor-pointer select-none ${
                     isPlaying
-                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 animate-pulse'
+                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 shadow-xs'
                       : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-slate-200 dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700'
                   }`}
                   title={isPlaying ? t('stopAudio') : t('listenAudio')}
                 >
                   {isPlaying ? (
                     <>
-                      <Square className="w-3 h-3 fill-current" />
+                      <div className="flex items-center gap-0.5 h-3">
+                        <span className="w-0.5 h-full bg-current animate-pulse rounded-full" />
+                        <span className="w-0.5 h-2/3 bg-current animate-ping rounded-full" />
+                        <span className="w-0.5 h-4/5 bg-current animate-pulse rounded-full" />
+                      </div>
                       <span>{t('stopAudio')}</span>
                     </>
                   ) : (
@@ -184,7 +192,7 @@ export const SingleChoiceQuestion: React.FC<{ question: Question }> = ({ questio
             </div>
           </div>
 
-          <p className="text-base sm:text-lg text-slate-900 dark:text-zinc-100 font-medium leading-relaxed font-serif">
+          <p className="text-base sm:text-lg text-slate-900 dark:text-zinc-100 font-medium leading-relaxed font-sans">
             {question.subtitle}
           </p>
 

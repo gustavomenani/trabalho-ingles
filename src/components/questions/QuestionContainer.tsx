@@ -10,32 +10,29 @@ import { SliderQuestion } from './SliderQuestion';
 import { TextFeedbackQuestion } from './TextFeedbackQuestion';
 
 export const QuestionContainer: React.FC = () => {
-  const { currentQuestion, currentIndex, direction, language, t } = useQuestionnaire();
+  const { currentQuestion, currentIndex, language, t } = useQuestionnaire();
 
   if (!currentQuestion) return null;
 
-  // Lightweight, hardware-accelerated variants for silky smooth transitions
+  // Clean, razor-sharp opacity transitions without subpixel transform blur
   const variants: Variants = {
-    enter: (dir: number) => ({
-      y: dir > 0 ? 10 : -10,
+    enter: {
       opacity: 0,
-    }),
+    },
     center: {
-      y: 0,
       opacity: 1,
       transition: {
-        y: { duration: 0.16, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.14, ease: 'easeOut' },
+        duration: 0.15,
+        ease: 'easeOut',
       },
     },
-    exit: (dir: number) => ({
-      y: dir > 0 ? -10 : 10,
+    exit: {
       opacity: 0,
       transition: {
-        y: { duration: 0.12, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.1, ease: 'easeIn' },
+        duration: 0.1,
+        ease: 'easeIn',
       },
-    }),
+    },
   };
 
   const isQuotedSentence = currentQuestion.subtitle?.startsWith('"');
@@ -49,15 +46,14 @@ export const QuestionContainer: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col justify-center items-center py-6 sm:py-10 px-4 sm:px-6 w-full max-w-5xl mx-auto overflow-hidden">
-      <AnimatePresence mode="wait" custom={direction}>
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentQuestion.id}
-          custom={direction}
           variants={variants}
           initial="enter"
           animate="center"
           exit="exit"
-          className="w-full flex flex-col items-center will-change-[transform,opacity]"
+          className="w-full flex flex-col items-center"
         >
           {currentQuestion.type === 'welcome' ? (
             <WelcomeScreen />

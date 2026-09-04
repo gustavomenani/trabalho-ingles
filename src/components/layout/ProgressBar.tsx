@@ -31,9 +31,9 @@ export const ProgressBar: React.FC = () => {
             </span>
           </div>
         </div>
-        <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-slate-200/80 dark:bg-zinc-800/80 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-slate-900 dark:bg-white rounded-full"
+            className="h-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-slate-900 dark:from-indigo-400 dark:via-indigo-300 dark:to-white rounded-full shadow-[0_0_8px_rgba(99,102,241,0.35)]"
             initial={{ width: '0%' }}
             animate={{ width: `${progressPercent}%` }}
             transition={{ type: 'spring', stiffness: 120, damping: 20 }}

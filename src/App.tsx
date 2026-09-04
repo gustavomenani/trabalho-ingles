@@ -33,7 +33,7 @@ const QuestionnaireApp: React.FC = () => {
   }, [language]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-150 relative">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-150 relative overflow-x-hidden">
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         <ProgressBar />

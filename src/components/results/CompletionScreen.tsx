@@ -97,12 +97,12 @@ export const CompletionScreen: React.FC = () => {
       </div>
 
       {/* Academic Grade Card / Certificate */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-300/80 dark:border-zinc-800 shadow-sm text-left space-y-6">
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-b from-white via-white to-slate-50/70 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950/80 border border-slate-200 dark:border-zinc-800 shadow-[0_8px_30px_rgb(0,0,0,0.05)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.35)] text-left space-y-6 relative overflow-hidden">
         {/* Student Metadata Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800 pb-3">
           <div className="flex flex-wrap items-center gap-2.5 font-medium text-slate-800 dark:text-zinc-200">
             <div className="flex items-center gap-1.5">
-              <School className="w-3.5 h-3.5 text-slate-500" />
+              <School className="w-3.5 h-3.5 text-indigo-500" />
               <span>Etec de Araçatuba</span>
             </div>
             <span>•</span>
@@ -139,7 +139,7 @@ export const CompletionScreen: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-zinc-800 pb-5">
           <div className="flex items-center gap-4">
             {/* Letter Grade Stamp */}
-            <div className="w-16 h-16 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex flex-col items-center justify-center font-bold shadow-xs">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white dark:from-white dark:to-zinc-200 dark:text-slate-900 flex flex-col items-center justify-center font-bold shadow-md ring-2 ring-slate-900/10 dark:ring-white/20 shrink-0">
               <span className="text-2xl font-black leading-none">{grade.letterGrade}</span>
               <span className="text-[10px] font-mono tracking-wider opacity-80 mt-0.5">{t('gradeBadge')}</span>
             </div>
@@ -196,7 +196,7 @@ export const CompletionScreen: React.FC = () => {
                 </div>
                 <div className="h-2 w-full bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-slate-900 dark:bg-white rounded-full transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-indigo-500 to-slate-900 dark:from-indigo-400 dark:to-white rounded-full transition-all duration-500"
                     style={{ width: `${comp.score}%` }}
                   />
                 </div>
